@@ -1,0 +1,93 @@
+class Solution {
+public:
+    
+    int length(int x)
+    {
+        int len=1, y=0 , z;
+        
+        for(int i=0 ; i<5 ; i++)
+        {
+            len++;
+            y=y*26+26;
+            z=y*26+26;
+            if(x>=y)
+            {
+                if(x<=z)
+                    break;
+            }
+        }
+        
+        if(x>321272406)
+            len++;
+        
+        cout<<"len:  "<<len<<endl;
+        return len;
+    }
+    
+    int power(int x)
+    {
+        int pr=1;
+        
+        while(x>0)
+        {
+            pr*=26;
+            x--;
+        }
+        
+        return pr;
+    }
+    
+    string convertToTitle(int columnNumber) {
+        string res = "";
+        
+        if(columnNumber<=26)
+        {
+            res+= (char)(64+columnNumber);
+            return res;
+        }
+        
+        int len = length(columnNumber);
+        
+        for(int i=len-1 ; i>=0 ; i--)
+        {
+            int flag = 0;
+            int pow = power(i);
+            float quot = (float)columnNumber/pow;
+            int n;
+            
+            cout<<quot<<"  ";
+            
+            if(quot==0)
+                continue;
+            
+            if(quot>26)
+            {
+                n=26;
+                columnNumber = columnNumber - pow*n;
+                flag = 2;
+            }
+            else if(i!=0)
+            {
+                int x = power(i-1);
+                n=quot;
+                float y = (columnNumber - pow*n)/x;
+                if(y==0)
+                {
+                    n=quot-1;
+                    columnNumber = columnNumber - pow*n;
+                    flag = 1;
+                }
+            }
+            
+            if(flag==0)
+            {
+                n=quot;
+                columnNumber = columnNumber - pow*n;
+            }
+            
+            res=res+(char)(64+n);
+        }
+        
+        return res;
+    }
+};
